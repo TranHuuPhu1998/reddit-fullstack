@@ -1,5 +1,3 @@
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
-
-const Index = () => <DarkModeSwitch />;
+const Index = () => <></>;
 
 export default Index;

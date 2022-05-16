@@ -1,22 +1,48 @@
-import { Formik, Form } from "formik";
-import { Button, Box, Flex, Spinner } from "@chakra-ui/react";
+import { Formik, Form, FormikHelpers } from "formik";
+import { Button, Box, Flex, Spinner, useToast } from "@chakra-ui/react";
 import Wrapper from "../components/Wrapper";
 import InputField from "../components/InputField";
+import { RegisterInput, useRegisterMutation } from "../generated/graphql";
+import { useRouter } from "next/router";
+import { mapFieldErrors } from "../helpers/mapFieldErrors";
 
 const Register = () => {
-  //   const router = useRouter();
-
+  const router = useRouter();
+  const toast = useToast();
   //   const { data: authData, loading: authLoading } = useCheckAuth();
 
-  const initialValues: any = {
+  const initialValues: RegisterInput = {
     username: "",
     email: "",
     password: "",
   };
 
-  //   const [registerUser, { loading: _registerUserLoading, error }] = useRegisterMutation();
+  const [registerUser, { loading: _registerUserLoading, error }] =
+    useRegisterMutation();
 
-  //   const toast = useToast();
+  const onRegisterSubmit = async (
+    values: RegisterInput,
+    { setErrors }: FormikHelpers<RegisterInput>
+  ) => {
+    const response = await registerUser({
+      variables: {
+        registerInput: values,
+      },
+    });
+    if (response.data?.register.errors) {
+      setErrors(mapFieldErrors(response.data.register.errors));
+    } else if (response.data?.register.user) {
+      // register successfully
+      toast({
+        title: "Welcome",
+        description: `${response.data.register.user.username}`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+      router.push("/");
+    }
+  };
 
   return (
     <>
@@ -26,11 +52,8 @@ const Register = () => {
         </Flex>
       ) : (
         <Wrapper size="small">
-          {<p>Failed to register. Internal server error</p>}
-          <Formik
-            initialValues={initialValues}
-            onSubmit={() => console.log("oke")}
-          >
+          {error && <p>Failed to register. Internal server error</p>}
+          <Formik initialValues={initialValues} onSubmit={onRegisterSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <InputField

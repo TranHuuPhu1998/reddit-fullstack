@@ -7,7 +7,8 @@
 - DAY 12/05/2022 (40 phut)
 - DAY 13/05/2022 (40 phut -> 1h54phut)
 - DAY 15/05/2022 (1h54phut -> 2h30phut)
-- DAY 16/05/2022 (2h30phut -> 4h00phut)
+- DAY 16/05/2022 (2h30phut -> 5h05phut)
+- DAY 17/05/2022 (5h05phut -> )
 
 - install db : <https://www.youtube.com/watch?v=QaZrWIvAFsA>
 
@@ -55,7 +56,8 @@ GET LIST DATABASE WITH TERMINAL
 
 - mutations register
 
-```mutation Register {
+```
+mutation Register {
   register (registerInput:{
     username:"vue"
     email:"vue@gmail.com"
