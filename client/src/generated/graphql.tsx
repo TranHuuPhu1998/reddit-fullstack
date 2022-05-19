@@ -14,6 +14,8 @@ export type Scalars = {
   Float: number;
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type CreatePostInput = {
@@ -47,6 +49,7 @@ export type Mutation = {
   createPost: PostMutationResponse;
   updatePost: PostMutationResponse;
   deletePost: PostMutationResponse;
+  addProfilePicture: UploadResult;
 };
 
 
@@ -72,6 +75,11 @@ export type MutationUpdatePostArgs = {
 
 export type MutationDeletePostArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationAddProfilePictureArgs = {
+  file: Scalars['Upload'];
 };
 
 export type Post = {
@@ -121,6 +129,12 @@ export type UpdatePostInput = {
   text: Scalars['String'];
 };
 
+
+export type UploadResult = {
+  __typename?: 'UploadResult';
+  url: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID'];
@@ -139,6 +153,51 @@ export type UserMutationResponse = IMutationResponse & {
   errors?: Maybe<Array<FieldError>>;
 };
 
+export type FieldErrorFragment = (
+  { __typename?: 'FieldError' }
+  & Pick<FieldError, 'field' | 'message'>
+);
+
+export type UserMutationStatusesFragment = (
+  { __typename?: 'UserMutationResponse' }
+  & Pick<UserMutationResponse, 'code' | 'success' | 'message'>
+);
+
+export type PostMutationStatusesFragment = (
+  { __typename?: 'PostMutationResponse' }
+  & Pick<PostMutationResponse, 'code' | 'success' | 'message'>
+);
+
+export type UserInfoFragment = (
+  { __typename?: 'User' }
+  & Pick<User, 'id' | 'username' | 'email'>
+);
+
+export type UserMutationResponseFragment = (
+  { __typename?: 'UserMutationResponse' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & UserInfoFragment
+  )>, errors?: Maybe<Array<(
+    { __typename?: 'FieldError' }
+    & FieldErrorFragment
+  )>> }
+  & UserMutationStatusesFragment
+);
+
+export type LoginMutationVariables = Exact<{
+  loginInput: LoginInput;
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & { login: (
+    { __typename?: 'UserMutationResponse' }
+    & UserMutationResponseFragment
+  ) }
+);
+
 export type RegisterMutationVariables = Exact<{
   registerInput: RegisterInput;
 }>;
@@ -148,37 +207,90 @@ export type RegisterMutation = (
   { __typename?: 'Mutation' }
   & { register: (
     { __typename?: 'UserMutationResponse' }
-    & Pick<UserMutationResponse, 'code' | 'success' | 'message'>
-    & { user?: Maybe<(
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'username' | 'email' | 'createdAt'>
-    )>, errors?: Maybe<Array<(
-      { __typename?: 'FieldError' }
-      & Pick<FieldError, 'field' | 'message'>
-    )>> }
+    & UserMutationResponseFragment
   ) }
 );
 
+export const PostMutationStatusesFragmentDoc = gql`
+    fragment postMutationStatuses on PostMutationResponse {
+  code
+  success
+  message
+}
+    `;
+export const UserMutationStatusesFragmentDoc = gql`
+    fragment userMutationStatuses on UserMutationResponse {
+  code
+  success
+  message
+}
+    `;
+export const UserInfoFragmentDoc = gql`
+    fragment userInfo on User {
+  id
+  username
+  email
+}
+    `;
+export const FieldErrorFragmentDoc = gql`
+    fragment fieldError on FieldError {
+  field
+  message
+}
+    `;
+export const UserMutationResponseFragmentDoc = gql`
+    fragment userMutationResponse on UserMutationResponse {
+  ...userMutationStatuses
+  user {
+    ...userInfo
+  }
+  errors {
+    ...fieldError
+  }
+}
+    ${UserMutationStatusesFragmentDoc}
+${UserInfoFragmentDoc}
+${FieldErrorFragmentDoc}`;
+export const LoginDocument = gql`
+    mutation Login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    ...userMutationResponse
+  }
+}
+    ${UserMutationResponseFragmentDoc}`;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      loginInput: // value for 'loginInput'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
     mutation Register($registerInput: RegisterInput!) {
   register(registerInput: $registerInput) {
-    code
-    success
-    message
-    user {
-      id
-      username
-      email
-      createdAt
-    }
-    errors {
-      field
-      message
-    }
+    ...userMutationResponse
   }
 }
-    `;
+    ${UserMutationResponseFragmentDoc}`;
 export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**

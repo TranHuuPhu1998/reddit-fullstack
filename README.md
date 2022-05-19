@@ -1,11 +1,13 @@
-# Upload image
-
-{ "query": "mutation ($file: Upload!) { addProfilePicture(file: $file) { code } }", "variables": { "file": null } }
-
-{"query":"mutation AddProfilePicture($file: Upload!){ addProfilePicture(file: $file){ url } }"}
-#RESOURCE_COURESE
+Hướng dẫn Full Stack TypeScript, GraphQL, Apollo, React & Next.js from Henry Web Dev
 
 - ytb : <https://www.youtube.com/watch?v=1UMNUbtzQXk>
+
+# Upload image
+
+- test postman for body
+  operations : {"query":"mutation AddProfilePicture($file: Upload!){ addProfilePicture(file: $file){ url } }"}
+  map : { "0": ["variables.file"] }
+  0 : File
 
 # Plans
 
@@ -13,7 +15,8 @@
 - DAY 13/05/2022 (40 phut -> 1h54phut)
 - DAY 15/05/2022 (1h54phut -> 2h30phut)
 - DAY 16/05/2022 (2h30phut -> 5h05phut)
-- DAY 17/05/2022 (5h05phut -> )
+- DAY 17/05/2022 (Implement upload images)
+- DAY 19/05/2022 (5h05phut -> 5h20phut)
 
 - install db : <https://www.youtube.com/watch?v=QaZrWIvAFsA>
 
