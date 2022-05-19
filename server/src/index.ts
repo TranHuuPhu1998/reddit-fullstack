@@ -17,6 +17,8 @@ import { ApolloServerPluginLandingPageGraphQLPlayground } from "apollo-server-co
 import cors from "cors";
 import path from "path";
 import { PostResolver } from "./resolvers/post";
+import { graphqlUploadExpress } from "graphql-upload";
+import { ProfilePictureResolver } from "./resolvers/profile-picture";
 
 const main = async () => {
   const connection = await createConnection({
@@ -84,9 +86,19 @@ const main = async () => {
     })
   );
 
+  app.use(
+    "/graphql",
+    graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 })
+  );
+
   const apolloServer = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver, PostResolver],
+      resolvers: [
+        HelloResolver,
+        UserResolver,
+        PostResolver,
+        ProfilePictureResolver,
+      ],
       validate: false,
     }),
     context: ({ req, res }): Context => ({
@@ -99,6 +111,10 @@ const main = async () => {
   await apolloServer.start();
 
   apolloServer.applyMiddleware({ app, cors: false });
+
+  app.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, `../public/images/${req.path}`));
+  });
 
   const PORT = process.env.PORT || 5555;
   app.listen(PORT, () =>

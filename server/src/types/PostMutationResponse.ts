@@ -6,7 +6,7 @@ import { Post } from "../entities/Post";
 @ObjectType({ implements: IMutationResponse })
 export class PostMutationResponse implements IMutationResponse {
   code: number;
-  success: boolean;
+  success?: boolean;
   message?: string;
 
   @Field({ nullable: true })

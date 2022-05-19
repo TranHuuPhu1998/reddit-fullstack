@@ -1,4 +1,9 @@
-# RESOURCE_COURESE
+# Upload image
+
+{ "query": "mutation ($file: Upload!) { addProfilePicture(file: $file) { code } }", "variables": { "file": null } }
+
+{"query":"mutation AddProfilePicture($file: Upload!){ addProfilePicture(file: $file){ url } }"}
+#RESOURCE_COURESE
 
 - ytb : <https://www.youtube.com/watch?v=1UMNUbtzQXk>
 

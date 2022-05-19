@@ -6,7 +6,7 @@ export abstract class IMutationResponse {
   code: number;
 
   @Field()
-  success: boolean;
+  success?: boolean;
 
   @Field({ nullable: true })
   message?: string;
