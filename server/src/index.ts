@@ -112,8 +112,8 @@ const main = async () => {
 
   apolloServer.applyMiddleware({ app, cors: false });
 
-  app.get("/*", (req, res) => {
-    res.sendFile(path.join(__dirname, `../public/images/${req.path}`));
+  app.get("/images/:images", (req, res) => {
+    res.sendFile(path.join(__dirname, `../public/images/${req.params.images}`));
   });
 
   const PORT = process.env.PORT || 5555;

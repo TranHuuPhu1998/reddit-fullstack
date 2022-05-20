@@ -18,8 +18,11 @@ export class ProfilePictureResolver {
     }
     const pipedStreams = readableStreams.map((readStreamInstance: any) => {
       const { filename, createReadStream } = readStreamInstance;
+      // create folder for upload images
+
       fs.mkdirSync(`./public/images`, { recursive: true });
 
+      // This opens up the writeable stream to `output`
       const writableStream = fs.createWriteStream(
         `./public/images/${filename}`,
         {

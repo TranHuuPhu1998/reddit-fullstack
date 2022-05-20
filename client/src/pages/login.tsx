@@ -4,13 +4,19 @@ import { Form, Formik, FormikHelpers } from "formik";
 import { useRouter } from "next/router";
 import InputField from "../components/InputField";
 import Wrapper from "../components/Wrapper";
-import { LoginInput, useLoginMutation } from "../generated/graphql";
+import {
+  LoginInput,
+  MeDocument,
+  MeQuery,
+  useLoginMutation,
+} from "../generated/graphql";
 import { mapFieldErrors } from "../helpers/mapFieldErrors";
+import { useCheckAuth } from "../utils/useCheckAuth";
 
 const Login = () => {
   const router = useRouter();
 
-  // const { data: authData, loading: authLoading } = useCheckAuth();
+  const { data: authData, loading: authLoading } = useCheckAuth();
 
   const initialValues: LoginInput = { usernameOrEmail: "", password: "" };
 
@@ -25,6 +31,15 @@ const Login = () => {
     const response = await loginUser({
       variables: {
         loginInput: values,
+      },
+      update(cache, { data }) {
+        if (data?.login.success) {
+          cache.writeQuery<MeQuery>({
+            query: MeDocument,
+            data: { me: data.login.user },
+          });
+        }
+        // const meData = cache.readQuery({ query: MeDocument });
       },
     });
 
@@ -46,7 +61,7 @@ const Login = () => {
 
   return (
     <>
-      {false ? (
+      {authLoading || (!authLoading && authData?.me) ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
@@ -62,7 +77,6 @@ const Login = () => {
                   label="Username or Email"
                   type="text"
                 />
-
                 <Box mt={4}>
                   <InputField
                     name="password"

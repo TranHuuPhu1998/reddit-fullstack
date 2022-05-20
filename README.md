@@ -8,15 +8,20 @@ Hướng dẫn Full Stack TypeScript, GraphQL, Apollo, React & Next.js from Henr
   operations : {"query":"mutation AddProfilePicture($file: Upload!){ addProfilePicture(file: $file){ url } }"}
   map : { "0": ["variables.file"] }
   0 : File
+- app.use(express.static('public'));
+- app.get("/\*", (req, res) => {
+  res.sendFile(path.join(\_\_dirname, `../public/images/${req.path}`));
+  });
 
 # Plans
 
-- DAY 12/05/2022 (40 phut)
-- DAY 13/05/2022 (40 phut -> 1h54phut)
+- DAY 12/05/2022 (40phut)
+- DAY 13/05/2022 (40phut -> 1h54phut)
 - DAY 15/05/2022 (1h54phut -> 2h30phut)
 - DAY 16/05/2022 (2h30phut -> 5h05phut)
-- DAY 17/05/2022 (Implement upload images)
+- DAY 17/05/2022 (Implement upload images server)
 - DAY 19/05/2022 (5h05phut -> 5h20phut)
+- DAY 20/05/2022 (5h20phut -> 6h27phut)
 
 - install db : <https://www.youtube.com/watch?v=QaZrWIvAFsA>
 
@@ -139,6 +144,18 @@ query GetPost {
         field
         message
       }
+    }
+  }
+```
+
+- query get profile
+
+```
+  query Me {
+    me {
+      id
+      username
+      email
     }
   }
 ```
