@@ -1,0 +1,9 @@
+mutation CreatePost($createPostInput: CreatePostInput!) {
+  createPost(createPostInput: $createPostInput) {
+    ...postMutationStatuses
+    post {
+      id
+      title
+    }
+  }
+}

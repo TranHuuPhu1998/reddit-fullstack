@@ -22,6 +22,7 @@ Hướng dẫn Full Stack TypeScript, GraphQL, Apollo, React & Next.js from Henr
 - DAY 17/05/2022 (Implement upload images server)
 - DAY 19/05/2022 (5h05phut -> 5h20phut)
 - DAY 20/05/2022 (5h20phut -> 6h27phut)
+- DAY 21/05/2022 (Implement i18next)
 
 - install db : <https://www.youtube.com/watch?v=QaZrWIvAFsA>
 

@@ -5,11 +5,14 @@ import InputField from "../components/InputField";
 import { RegisterInput, useRegisterMutation } from "../generated/graphql";
 import { useRouter } from "next/router";
 import { mapFieldErrors } from "../helpers/mapFieldErrors";
+import { useCheckAuth } from "../utils/useCheckAuth";
+import useTranslation from "next-translate/useTranslation";
 
 const Register = () => {
   const router = useRouter();
   const toast = useToast();
-  //   const { data: authData, loading: authLoading } = useCheckAuth();
+  const { t } = useTranslation();
+  const { data: authData, loading: authLoading } = useCheckAuth();
 
   const initialValues: RegisterInput = {
     username: "",
@@ -46,20 +49,20 @@ const Register = () => {
 
   return (
     <>
-      {false ? (
+      {authLoading || (!authLoading && authData?.me) ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
       ) : (
         <Wrapper size="small">
-          {error && <p>Failed to register. Internal server error</p>}
+          {error && <p>{t("Failed to register. Please try again.")}</p>}
           <Formik initialValues={initialValues} onSubmit={onRegisterSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <InputField
                   name="username"
                   placeholder="Username"
-                  label="Username"
+                  label={t("common:username")}
                   type="text"
                   isRequired={true}
                 />
@@ -67,7 +70,7 @@ const Register = () => {
                   <InputField
                     name="email"
                     placeholder="Email"
-                    label="Email"
+                    label={t("common:email")}
                     type="text"
                     isRequired={true}
                   />
@@ -76,7 +79,7 @@ const Register = () => {
                   <InputField
                     name="password"
                     placeholder="Password"
-                    label="Password"
+                    label={t("common:password")}
                     type="password"
                     isRequired={true}
                   />
@@ -87,7 +90,7 @@ const Register = () => {
                   mt={4}
                   isLoading={isSubmitting}
                 >
-                  Register
+                  {t("common:register")}
                 </Button>
               </Form>
             )}

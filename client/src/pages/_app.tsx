@@ -4,6 +4,7 @@ import theme from "../theme";
 import { AppProps } from "next/app";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { appWithTranslation } from "next-i18next";
 
 const client = new ApolloClient({
   uri: "http://localhost:5555/graphql",
@@ -11,7 +12,7 @@ const client = new ApolloClient({
   credentials: "include",
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ApolloProvider client={client}>
       <ChakraProvider resetCSS theme={theme}>
@@ -20,6 +21,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </ChakraProvider>
     </ApolloProvider>
   );
-}
+};
 
-export default MyApp;
+export default appWithTranslation(MyApp);

@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import Navbar from "./Navbar";
 
 type WrapperSize = "regular" | "small";
 

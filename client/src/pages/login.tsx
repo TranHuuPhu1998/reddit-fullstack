@@ -12,8 +12,10 @@ import {
 } from "../generated/graphql";
 import { mapFieldErrors } from "../helpers/mapFieldErrors";
 import { useCheckAuth } from "../utils/useCheckAuth";
+import useTranslation from "next-translate/useTranslation";
 
 const Login = () => {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const { data: authData, loading: authLoading } = useCheckAuth();
@@ -48,7 +50,7 @@ const Login = () => {
     } else if (response.data?.login.user) {
       // register successfully
       toast({
-        title: "Welcome",
+        title: t("common:welcome"),
         description: `${response.data.login.user.username}`,
         status: "success",
         duration: 3000,
@@ -67,28 +69,28 @@ const Login = () => {
         </Flex>
       ) : (
         <Wrapper size="small">
-          {error && <p>Failed to login. Internal server error.</p>}
+          {error && <p>{t("Failed to login. Internal server error.")}</p>}
           <Formik initialValues={initialValues} onSubmit={onLoginSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <InputField
                   name="usernameOrEmail"
                   placeholder="Username or Email"
-                  label="Username or Email"
+                  label={t("common:username-or-email")}
                   type="text"
                 />
                 <Box mt={4}>
                   <InputField
                     name="password"
                     placeholder="Password"
-                    label="Password"
+                    label={t("common:password")}
                     type="password"
                   />
                 </Box>
 
                 <Flex mt={2}>
                   <NextLink href="/forgot-password">
-                    <Link ml="auto">Forgot Password</Link>
+                    <Link ml="auto">{t("common:forgot-password")}</Link>
                   </NextLink>
                 </Flex>
 
@@ -98,7 +100,7 @@ const Login = () => {
                   mt={4}
                   isLoading={isSubmitting}
                 >
-                  Login
+                  {t("common:login")}
                 </Button>
               </Form>
             )}

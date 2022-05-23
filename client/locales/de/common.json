@@ -1,0 +1,19 @@
+{
+  "title": "De Welcome to react using react-i18next",
+  "Go back to Homepage": "De Go back to Homepage",
+  "login": "De Login",
+  "en": "De English",
+  "de": "De German",
+  "create-post": "De Create Post",
+  "forgot-password": "Forgot Password",
+  "Failed to login. Internal server error.": "Failed to login. Internal server error.",
+  "Failed to register. Please try again.": "Failed to login. Please try again.",
+  "username-or-email": "Username or Email",
+  "password": "Password",
+  "welcome": "Welcome",
+  "register": "Register",
+  "logout": "Logout",
+  "username": "Username",
+  "email": "Email",
+  "confirm-password": "Confirm Password"
+}
