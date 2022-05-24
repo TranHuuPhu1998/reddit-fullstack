@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Link, Button, useToast } from "@chakra-ui/react";
-import { update } from "lodash";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import {
@@ -8,8 +7,9 @@ import {
   useLogoutMutation,
   useMeQuery,
 } from "../generated/graphql";
-
+import useTranslation from "next-translate/useTranslation";
 const Navbar = () => {
+  const { t } = useTranslation();
   const { data, loading: useMeQueryLoading } = useMeQuery();
   const [logout, { loading: useLogoutMutationLoading }] = useLogoutMutation();
   const toast = useToast();
@@ -50,10 +50,10 @@ const Navbar = () => {
     body = (
       <>
         <NextLink href="/login">
-          <Link mr={2}>Login</Link>
+          <Link mr={2}>{t("common:login")}</Link>
         </NextLink>
         <NextLink href="/register">
-          <Link>Register</Link>
+          <Link>{t("common:register")}</Link>
         </NextLink>
       </>
     );
@@ -61,10 +61,10 @@ const Navbar = () => {
     body = (
       <Flex>
         <NextLink href="/create-post">
-          <Button mr={4}>Create Post</Button>
+          <Button mr={4}>{t("common:create-post")}</Button>
         </NextLink>
         <Button onClick={logoutUser} isLoading={useLogoutMutationLoading}>
-          Logout
+          {t("common:logout")}
         </Button>
       </Flex>
     );
@@ -74,7 +74,7 @@ const Navbar = () => {
     <Box bg="tan" p={4}>
       <Flex maxW={800} justifyContent="space-between" align="center" m="auto">
         <NextLink href="/">
-          <Heading>Reddit</Heading>
+          <Heading>{t("common:reddit")}</Heading>
         </NextLink>
         <Box>{body}</Box>
       </Flex>

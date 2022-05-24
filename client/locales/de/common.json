@@ -11,9 +11,10 @@
   "username-or-email": "Username or Email",
   "password": "Password",
   "welcome": "Welcome",
-  "register": "Register",
-  "logout": "Logout",
+  "register": "DE Register",
+  "logout": "DE Logout",
   "username": "Username",
   "email": "Email",
-  "confirm-password": "Confirm Password"
+  "confirm-password": "Confirm Password",
+  "reddit": "Reddit"
 }

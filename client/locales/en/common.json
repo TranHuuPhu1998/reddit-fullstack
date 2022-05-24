@@ -15,5 +15,6 @@
   "logout": "Logout",
   "username": "Username",
   "email": "Email",
-  "confirm-password": "Confirm Password"
+  "confirm-password": "Confirm Password",
+  "reddit": "Reddit"
 }

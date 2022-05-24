@@ -2,10 +2,13 @@ import { Button, Stack } from "@chakra-ui/react";
 import useTranslation from "next-translate/useTranslation";
 import setLanguage from "next-translate/setLanguage";
 import Layout from "../components/Layout";
+import { addApolloState, initializeApollo } from "../lib/apolloClient";
+import { GetPostDocument } from "../generated/graphql";
 // import Link from "next/link";
 
 const Home = () => {
   const { t } = useTranslation();
+  // const { data, loading } = useGetPostQuery();
   const changeLanguage = async (lang: string) => {
     await setLanguage(lang);
   };
@@ -33,5 +36,17 @@ const Home = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps() {
+  const apolloClient = initializeApollo();
+
+  await apolloClient.query({
+    query: GetPostDocument,
+  });
+
+  return addApolloState(apolloClient, {
+    props: {},
+  });
+}
 
 export default Home;

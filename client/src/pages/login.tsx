@@ -57,7 +57,7 @@ const Login = () => {
         isClosable: true,
       });
 
-      router.push("/");
+      router.push("/home");
     }
   };
 

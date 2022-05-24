@@ -42,7 +42,7 @@
     "graphql-upload": "^13.0.0",
     "lodash": "^4.17.21",
     "mongoose": "^5.13.5",
-    "nodemailer": "^6.6.3",
+    "nodemailer": "^6.7.5",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
