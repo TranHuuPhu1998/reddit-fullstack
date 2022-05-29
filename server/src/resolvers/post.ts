@@ -3,19 +3,36 @@ import { PostMutationResponse } from "../types/PostMutationResponse";
 import {
   Arg,
   Ctx,
+  FieldResolver,
   ID,
   Mutation,
   Query,
   Resolver,
+  Root,
   UseMiddleware,
 } from "type-graphql";
 import { CreatePostInput } from "../types/CreatePostInput";
 import { Post } from "../entities/Post";
 import { UpdatePostInput } from "../types/UpdatePostInput";
 import { checkAuth } from "../middleware/checkAuth";
+import { User } from "../entities/User";
 
 @Resolver((_of) => Post)
 export class PostResolver {
+  @FieldResolver((_return) => String)
+  textSnippet(@Root() root: Post) {
+    return root.text.slice(0, 50);
+  }
+
+  @FieldResolver((_return) => User)
+  async user(
+    @Root() root: Post
+    // @Ctx() { dataLoaders: { userLoader } }: Context
+  ) {
+    return await User.findOne(root.userId);
+    // return await userLoader.load(root.userId);
+  }
+
   @Mutation((_return) => PostMutationResponse)
   @UseMiddleware(checkAuth)
   async createPost(

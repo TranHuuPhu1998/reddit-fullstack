@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
@@ -25,7 +26,7 @@ export class Post extends BaseEntity {
   userId!: number;
 
   @Field((_type) => User)
-  // @ManyToOne(() => User, (user) => user.posts)
+  @ManyToOne(() => User, (user) => user.posts)
   user: User;
 
   // @OneToMany((_to) => Upvote, (upvote) => upvote.post)
