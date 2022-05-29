@@ -1,52 +1,67 @@
-import { Button, Stack } from "@chakra-ui/react";
-import useTranslation from "next-translate/useTranslation";
-import setLanguage from "next-translate/setLanguage";
+import {
+  Box,
+  Flex,
+  Heading,
+  Link,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import NextLink from "next/link";
 import Layout from "../components/Layout";
+import { GetAllPostDocument, useGetAllPostQuery } from "../generated/graphql";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
-import { GetPostDocument } from "../generated/graphql";
-// import Link from "next/link";
 
-const Home = () => {
-  const { t } = useTranslation();
-  // const { data, loading } = useGetPostQuery();
-  const changeLanguage = async (lang: string) => {
-    await setLanguage(lang);
-  };
+export const limit = 3;
+
+const Index = () => {
+  const { data, loading } = useGetAllPostQuery();
 
   return (
     <Layout>
-      <Stack spacing={4} direction="row" align="center">
-        <Button
-          colorScheme="teal"
-          variant="outline"
-          onClick={() => changeLanguage("en")}
-        >
-          {t("common:en")}
-        </Button>
-        <Button
-          colorScheme="teal"
-          variant="outline"
-          onClick={() => changeLanguage("de")}
-        >
-          {t("common:de")}
-        </Button>
-        {/* <Text>{t("common:title")}</Text>
-      <Link href="/create-post">Create post</Link> */}
-      </Stack>
+      {loading ? (
+        <Flex justifyContent="center" alignItems="center" minH="100vh">
+          <Spinner />
+        </Flex>
+      ) : (
+        <Stack spacing={8}>
+          {data?.posts?.map((post: any) => (
+            <Flex key={post.id} p={5} shadow="md" borderWidth="1px">
+              <Box flex={1}>
+                <NextLink href={`/post/${post.id}`}>
+                  <Link>
+                    <Heading fontSize="xl">{post.title}</Heading>
+                  </Link>
+                </NextLink>
+                <Text>posted by {post.user.username}</Text>
+                <Flex align="center">
+                  <Text mt={4}>{post.textSnippet}</Text>
+                </Flex>
+              </Box>
+            </Flex>
+          ))}
+        </Stack>
+      )}
     </Layout>
   );
 };
 
-export async function getServerSideProps() {
-  const apolloClient = initializeApollo();
+export const getServerSideProps: GetServerSideProps = async (
+  context: GetServerSidePropsContext
+) => {
+  const apolloClient = initializeApollo({ headers: context.req.headers });
 
   await apolloClient.query({
-    query: GetPostDocument,
+    query: GetAllPostDocument,
+    variables: {
+      limit,
+    },
   });
 
   return addApolloState(apolloClient, {
     props: {},
   });
-}
+};
 
-export default Home;
+export default Index;

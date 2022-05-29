@@ -1,9 +1,15 @@
-query GetPost {
+query getAllPost {
   posts {
     id
     title
     userId
     createdAt
     updatedAt
+    textSnippet
+    user {
+      id
+      username
+      email
+    }
   }
 }
