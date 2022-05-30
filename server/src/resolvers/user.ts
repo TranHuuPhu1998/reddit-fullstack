@@ -191,6 +191,7 @@ export class UserResolver {
 
     return true;
   }
+
   @Mutation((_return) => UserMutationResponse)
   async changePassword(
     @Arg("token") token: string,

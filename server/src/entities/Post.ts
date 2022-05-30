@@ -36,7 +36,7 @@ export class Post extends BaseEntity {
   @Column({ default: 0 })
   points!: number;
 
-  @Field()
+  @Field({ nullable: true })
   voteType!: number;
 
   @Field()

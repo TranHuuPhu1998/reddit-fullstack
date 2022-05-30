@@ -19,6 +19,29 @@ const CreatePost = () => {
   const onCreatePostSubmit = async (values: CreatePostInput) => {
     const response = await createPostAction({
       variables: { createPostInput: values },
+      update(cache, { data }) {
+        cache.modify({
+          fields: {
+            posts(existing) {
+              if (data?.createPost.success && data.createPost.post) {
+                // Post:new_id
+                const newPostRef = cache.identify(data.createPost.post);
+
+                const newPostsAfterCreation = {
+                  ...existing,
+                  totalCount: existing.totalCount + 1,
+                  paginatedPosts: [
+                    { __ref: newPostRef },
+                    ...existing.paginatedPosts, // [{__ref: 'Post:1'}, {__ref: 'Post:2'}]
+                  ],
+                };
+
+                return newPostsAfterCreation;
+              }
+            },
+          },
+        });
+      },
     });
     if (response.data?.createPost.success) {
       // post successfully
