@@ -4,17 +4,21 @@ import {
   Button,
   Flex,
   Heading,
-  Link,
   Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import NextLink from "next/link";
-import Layout from "../components/Layout";
-import PostEditDeleteButtons from "../components/PostEditDeleteButtons";
 import { GetAllPostDocument, useGetAllPostQuery } from "../generated/graphql";
 import { addApolloState, initializeApollo } from "../lib/apolloClient";
+import { NextSeo } from "next-seo";
+import Layout from "../components/Layout";
+import dynamic from "next/dynamic";
+
+const PostEditDeleteButtons = dynamic(
+  () => import("../components/PostEditDeleteButtons")
+);
 
 export const limit = 3;
 
@@ -35,6 +39,17 @@ const Index = () => {
 
   return (
     <Layout>
+      <NextSeo
+        title="Reddit | List Post"
+        description="This posts list of all users"
+        canonical="https://www.canonicalurl.ie/"
+        openGraph={{
+          url: "https://www.canonicalurl.ie/",
+          title: "Open Graph Title",
+          description: "Open Graph Description",
+        }}
+      />
+      <Heading mb={4}>SEO List Post</Heading>
       {loading && !loadingMorePosts ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
@@ -45,9 +60,7 @@ const Index = () => {
             <Flex key={post.id} p={5} shadow="md" borderWidth="1px">
               <Box flex={1}>
                 <NextLink href={`/post/${post.id}`}>
-                  <Link>
-                    <Heading fontSize="xl">{post.title}</Heading>
-                  </Link>
+                  <a>{post.title}</a>
                 </NextLink>
                 <Text>posted by {post.user.username}</Text>
                 <Flex align="center">
