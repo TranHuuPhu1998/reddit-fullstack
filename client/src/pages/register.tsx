@@ -1,12 +1,20 @@
-import { Formik, Form, FormikHelpers } from "formik";
-import { Button, Box, Flex, Spinner, useToast } from "@chakra-ui/react";
-import Wrapper from "../components/Wrapper";
-import InputField from "../components/InputField";
-import { RegisterInput, useRegisterMutation } from "../generated/graphql";
-import { useRouter } from "next/router";
-import { mapFieldErrors } from "../helpers/mapFieldErrors";
-import { useCheckAuth } from "../utils/useCheckAuth";
-import useTranslation from "next-translate/useTranslation";
+import { Formik, Form, FormikHelpers } from 'formik';
+import {
+  Button,
+  Box,
+  Flex,
+  Spinner,
+  useToast,
+  Heading,
+} from '@chakra-ui/react';
+import Wrapper from '../components/Wrapper';
+import InputField from '../components/InputField';
+import { RegisterInput, useRegisterMutation } from '../generated/graphql';
+import { useRouter } from 'next/router';
+import { mapFieldErrors } from '../helpers/mapFieldErrors';
+import { useCheckAuth } from '../utils/useCheckAuth';
+import useTranslation from 'next-translate/useTranslation';
+import { NextSeo } from 'next-seo';
 
 const Register = () => {
   const router = useRouter();
@@ -15,9 +23,9 @@ const Register = () => {
   const { data: authData, loading: authLoading } = useCheckAuth();
 
   const initialValues: RegisterInput = {
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   };
 
   const [registerUser, { loading: _registerUserLoading, error }] =
@@ -25,7 +33,7 @@ const Register = () => {
 
   const onRegisterSubmit = async (
     values: RegisterInput,
-    { setErrors }: FormikHelpers<RegisterInput>
+    { setErrors }: FormikHelpers<RegisterInput>,
   ) => {
     const response = await registerUser({
       variables: {
@@ -37,32 +45,45 @@ const Register = () => {
     } else if (response.data?.register.user) {
       // register successfully
       toast({
-        title: "Welcome",
+        title: 'Welcome',
         description: `${response.data.register.user.username}`,
-        status: "success",
+        status: 'success',
         duration: 3000,
         isClosable: true,
       });
-      router.push("/");
+      router.push('/');
     }
   };
 
   return (
     <>
+      <NextSeo
+        title="Reddit | Register"
+        description="This Login page for all users to login"
+        canonical="https://www.canonicalurl.ie/"
+        openGraph={{
+          url: 'https://www.canonicalurl.ie/',
+          title: 'Open Graph Title',
+          description: 'Open Graph Description',
+        }}
+      />
+      <Heading alignItems="center" mb={4}>
+        SEO Register Page
+      </Heading>
       {authLoading || (!authLoading && authData?.me) ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
       ) : (
         <Wrapper size="small">
-          {error && <p>{t("Failed to register. Please try again.")}</p>}
+          {error && <p>{t('Failed to register. Please try again.')}</p>}
           <Formik initialValues={initialValues} onSubmit={onRegisterSubmit}>
             {({ isSubmitting }) => (
               <Form>
                 <InputField
                   name="username"
                   placeholder="Username"
-                  label={t("common:username")}
+                  label={t('common:username')}
                   type="text"
                   isRequired={true}
                 />
@@ -70,7 +91,7 @@ const Register = () => {
                   <InputField
                     name="email"
                     placeholder="Email"
-                    label={t("common:email")}
+                    label={t('common:email')}
                     type="text"
                     isRequired={true}
                   />
@@ -79,18 +100,20 @@ const Register = () => {
                   <InputField
                     name="password"
                     placeholder="Password"
-                    label={t("common:password")}
+                    label={t('common:password')}
                     type="password"
                     isRequired={true}
                   />
                 </Box>
                 <Button
                   type="submit"
-                  colorScheme="teal"
+                  backgroundColor="#2c3133"
+                  color="white"
+                  size="lg"
                   mt={4}
                   isLoading={isSubmitting}
                 >
-                  {t("common:register")}
+                  {t('common:register')}
                 </Button>
               </Form>
             )}

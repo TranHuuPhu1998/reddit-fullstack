@@ -1,12 +1,12 @@
-import Wrapper from "../components/Wrapper";
-import { Formik, Form, FormikHelpers } from "formik";
+import Wrapper from '../components/Wrapper';
+import { Formik, Form, FormikHelpers } from 'formik';
 import {
   ChangePasswordInput,
   MeDocument,
   MeQuery,
   useChangePasswordMutation,
-} from "../generated/graphql";
-import InputField from "../components/InputField";
+} from '../generated/graphql';
+import InputField from '../components/InputField';
 import {
   Button,
   Flex,
@@ -16,27 +16,29 @@ import {
   Alert,
   AlertIcon,
   AlertTitle,
-} from "@chakra-ui/react";
-import router, { useRouter } from "next/router";
-import { mapFieldErrors } from "../helpers/mapFieldErrors";
-import { useState } from "react";
-import NextLink from "next/link";
-import { useCheckAuth } from "../utils/useCheckAuth";
+  Heading,
+} from '@chakra-ui/react';
+import router, { useRouter } from 'next/router';
+import { mapFieldErrors } from '../helpers/mapFieldErrors';
+import { useState } from 'react';
+import NextLink from 'next/link';
+import { useCheckAuth } from '../utils/useCheckAuth';
+import { NextSeo } from 'next-seo';
 
 const ChangePassword = () => {
   const { query } = useRouter();
 
   const { data: authData, loading: authLoading } = useCheckAuth();
 
-  const initialValues = { newPassword: "" };
+  const initialValues = { newPassword: '' };
 
   const [changePassword, _] = useChangePasswordMutation();
 
-  const [tokenError, setTokenError] = useState("");
+  const [tokenError, setTokenError] = useState('');
 
   const onChangePasswordSubmit = async (
     values: ChangePasswordInput,
-    { setErrors }: FormikHelpers<ChangePasswordInput>
+    { setErrors }: FormikHelpers<ChangePasswordInput>,
   ) => {
     if (query.userId && query.token) {
       const response = await changePassword({
@@ -57,12 +59,12 @@ const ChangePassword = () => {
 
       if (response.data?.changePassword.errors) {
         const fieldErrors = mapFieldErrors(response.data.changePassword.errors);
-        if ("token" in fieldErrors) {
+        if ('token' in fieldErrors) {
           setTokenError(fieldErrors.token);
         }
         setErrors(fieldErrors);
       } else if (response.data?.changePassword.user) {
-        router.push("/");
+        router.push('/');
       }
     }
   };
@@ -91,6 +93,19 @@ const ChangePassword = () => {
   else
     return (
       <Wrapper>
+        <NextSeo
+          title="Reddit | Change Password"
+          description="This change password for all users to login"
+          canonical="https://www.canonicalurl.ie/"
+          openGraph={{
+            url: 'https://www.canonicalurl.ie/',
+            title: 'Open Graph Title',
+            description: 'Open Graph Description',
+          }}
+        />
+        <Heading alignItems="center" mb={4}>
+          SEO Change Password
+        </Heading>
         <Formik initialValues={initialValues} onSubmit={onChangePasswordSubmit}>
           {({ isSubmitting }) => (
             <Form>
@@ -112,7 +127,9 @@ const ChangePassword = () => {
               )}
               <Button
                 type="submit"
-                colorScheme="teal"
+                backgroundColor="#2c3133"
+                color="white"
+                size="lg"
                 mt={4}
                 isLoading={isSubmitting}
               >

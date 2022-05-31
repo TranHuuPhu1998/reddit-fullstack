@@ -1,18 +1,19 @@
-import Wrapper from "../components/Wrapper";
-import { Formik, Form } from "formik";
-import InputField from "../components/InputField";
-import { Box, Button, Flex, Spinner, Link } from "@chakra-ui/react";
+import Wrapper from '../components/Wrapper';
+import { Formik, Form } from 'formik';
+import InputField from '../components/InputField';
+import { Box, Button, Flex, Spinner, Link, Heading } from '@chakra-ui/react';
 import {
   ForgotPasswordInput,
   useForgotPasswordMutation,
-} from "../generated/graphql";
-import { useCheckAuth } from "../utils/useCheckAuth";
-import NextLink from "next/link";
+} from '../generated/graphql';
+import { useCheckAuth } from '../utils/useCheckAuth';
+import NextLink from 'next/link';
+import { NextSeo } from 'next-seo';
 
 const ForgotPassword = () => {
   const { data: authData, loading: authLoading } = useCheckAuth();
 
-  const initialValues = { email: "" };
+  const initialValues = { email: '' };
 
   const [forgotPassword, { loading, data }] = useForgotPasswordMutation();
 
@@ -29,6 +30,19 @@ const ForgotPassword = () => {
   } else
     return (
       <Wrapper size="small">
+        <NextSeo
+          title="Reddit | Forgot Password"
+          description="This forgot password for all users to login"
+          canonical="https://www.canonicalurl.ie/"
+          openGraph={{
+            url: 'https://www.canonicalurl.ie/',
+            title: 'Open Graph Title',
+            description: 'Open Graph Description',
+          }}
+        />
+        <Heading alignItems="center" mb={4}>
+          SEO Forgot Password
+        </Heading>
         <Formik initialValues={initialValues} onSubmit={onForgotPasswordSubmit}>
           {({ isSubmitting }) =>
             !loading && data ? (
@@ -50,7 +64,9 @@ const ForgotPassword = () => {
 
                 <Button
                   type="submit"
-                  colorScheme="teal"
+                  backgroundColor="#2c3133"
+                  color="white"
+                  size="lg"
                   mt={4}
                   isLoading={isSubmitting}
                 >

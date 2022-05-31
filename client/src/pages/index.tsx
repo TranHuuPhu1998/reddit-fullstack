@@ -1,4 +1,4 @@
-import { NetworkStatus } from "@apollo/client";
+import { NetworkStatus } from '@apollo/client';
 import {
   Box,
   Button,
@@ -7,17 +7,17 @@ import {
   Spinner,
   Stack,
   Text,
-} from "@chakra-ui/react";
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
-import NextLink from "next/link";
-import { GetAllPostDocument, useGetAllPostQuery } from "../generated/graphql";
-import { addApolloState, initializeApollo } from "../lib/apolloClient";
-import { NextSeo } from "next-seo";
-import Layout from "../components/Layout";
-import dynamic from "next/dynamic";
+} from '@chakra-ui/react';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import NextLink from 'next/link';
+import { GetAllPostDocument, useGetAllPostQuery } from '../generated/graphql';
+import { addApolloState, initializeApollo } from '../lib/apolloClient';
+import { NextSeo } from 'next-seo';
+import Layout from '../components/Layout';
+import dynamic from 'next/dynamic';
 
 const PostEditDeleteButtons = dynamic(
-  () => import("../components/PostEditDeleteButtons")
+  () => import('../components/PostEditDeleteButtons'),
 );
 
 export const limit = 3;
@@ -44,9 +44,9 @@ const Index = () => {
         description="This posts list of all users"
         canonical="https://www.canonicalurl.ie/"
         openGraph={{
-          url: "https://www.canonicalurl.ie/",
-          title: "Open Graph Title",
-          description: "Open Graph Description",
+          url: 'https://www.canonicalurl.ie/',
+          title: 'Open Graph Title',
+          description: 'Open Graph Description',
         }}
       />
       <Heading mb={4}>SEO List Post</Heading>
@@ -82,7 +82,7 @@ const Index = () => {
             isLoading={loadingMorePosts}
             onClick={loadMorePosts}
           >
-            {loadingMorePosts ? "Loading" : "Show more"}
+            {loadingMorePosts ? 'Loading' : 'Show more'}
           </Button>
         </Flex>
       )}
@@ -91,7 +91,7 @@ const Index = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
+  context: GetServerSidePropsContext,
 ) => {
   const apolloClient = initializeApollo({ headers: context.req.headers });
 
