@@ -39,4 +39,11 @@ const theme = extendTheme({
 
 export default theme;
 
-// git commit 1 => commit 2 => commit 3 => commit 4
+// commit 1
+<<<<<<< HEAD
+
+// commit 2
+
+// commit 3
+=======
+>>>>>>> parent of 5037691 (commit 2)
