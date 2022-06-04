@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { useMeQuery } from "../generated/graphql";
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useMeQuery } from '../generated/graphql';
 
 export const useCheckAuth = () => {
   const router = useRouter();
@@ -25,8 +25,14 @@ export const useCheckAuth = () => {
     //     router.replace("/login");
     //   }
     // }
-    console.log("check auth");
+    console.log('check auth');
   }, [data, loading, router]);
 
   return { data, loading };
 };
+
+// commit 1
+
+// commit 2
+
+// commit 3

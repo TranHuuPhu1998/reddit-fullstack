@@ -7,22 +7,22 @@ import {
   Flex,
   Heading,
   Spinner,
-} from "@chakra-ui/react";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
-import Layout from "../../components/Layout";
+} from '@chakra-ui/react';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import Layout from '../../components/Layout';
 import {
   PostDocument,
   PostIdsDocument,
   PostIdsQuery,
   PostQuery,
   usePostQuery,
-} from "../../generated/graphql";
-import { addApolloState, initializeApollo } from "../../lib/apolloClient";
-import { limit } from "../index";
-import NextLink from "next/link";
-import PostEditDeleteButtons from "../../components/PostEditDeleteButtons";
-import { NextSeo } from "next-seo";
+} from '../../generated/graphql';
+import { addApolloState, initializeApollo } from '../../lib/apolloClient';
+import { limit } from '../index';
+import NextLink from 'next/link';
+import PostEditDeleteButtons from '../../components/PostEditDeleteButtons';
+import { NextSeo } from 'next-seo';
 
 const Post = () => {
   const router = useRouter();
@@ -44,7 +44,7 @@ const Post = () => {
       <Layout>
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>{error ? error.message : "Post not found"}</AlertTitle>
+          <AlertTitle>{error ? error.message : 'Post not found'}</AlertTitle>
         </Alert>
         <Box mt={4}>
           <NextLink href="/">
@@ -61,9 +61,9 @@ const Post = () => {
         description="This post detail of all users"
         canonical="https://www.canonicalurl.ie/"
         openGraph={{
-          url: "https://www.canonicalurl.ie/",
-          title: "Open Graph Title",
-          description: "Open Graph Description",
+          url: 'https://www.canonicalurl.ie/',
+          title: 'Open Graph Title',
+          description: 'Open Graph Description',
         }}
       />
       <Heading mb={4}>{data.post.title}</Heading>
@@ -98,7 +98,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: data.posts!.paginatedPosts.map((post: any) => ({
       params: { id: `${post.id}` },
     })),
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 };
 
