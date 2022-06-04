@@ -104,14 +104,6 @@ export type MutationAddProfilePictureArgs = {
   file: Scalars['Upload'];
 };
 
-export type PaginatedPosts = {
-  __typename?: 'PaginatedPosts';
-  totalCount: Scalars['Float'];
-  cursor: Scalars['DateTime'];
-  hasMore: Scalars['Boolean'];
-  paginatedPosts: Array<Post>;
-};
-
 export type Post = {
   __typename?: 'Post';
   id: Scalars['ID'];
@@ -139,14 +131,8 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   me?: Maybe<User>;
-  posts?: Maybe<PaginatedPosts>;
+  posts: Array<Post>;
   post?: Maybe<Post>;
-};
-
-
-export type QueryPostsArgs = {
-  cursor?: Maybe<Scalars['String']>;
-  limit: Scalars['Int'];
 };
 
 
@@ -203,15 +189,6 @@ export type UserMutationStatusesFragment = (
 export type PostMutationStatusesFragment = (
   { __typename?: 'PostMutationResponse' }
   & Pick<PostMutationResponse, 'code' | 'success' | 'message'>
-);
-
-export type PostWithUserInfoFragment = (
-  { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'title' | 'text' | 'createdAt' | 'updatedAt' | 'textSnippet' | 'points' | 'voteType'>
-  & { user: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'username'>
-  ) }
 );
 
 export type UserInfoFragment = (
@@ -331,21 +308,18 @@ export type PostQuery = (
   )> }
 );
 
-export type GetAllPostQueryVariables = Exact<{
-  limit: Scalars['Int'];
-  cursor?: Maybe<Scalars['String']>;
-}>;
+export type GetAllPostQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllPostQuery = (
   { __typename?: 'Query' }
-  & { posts?: Maybe<(
-    { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'totalCount' | 'cursor' | 'hasMore'>
-    & { paginatedPosts: Array<(
-      { __typename?: 'Post' }
-      & PostWithUserInfoFragment
-    )> }
+  & { posts: Array<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'title' | 'userId' | 'createdAt' | 'updatedAt' | 'textSnippet'>
+    & { user: (
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'username' | 'email'>
+    ) }
   )> }
 );
 
@@ -354,22 +328,6 @@ export const PostMutationStatusesFragmentDoc = gql`
   code
   success
   message
-}
-    `;
-export const PostWithUserInfoFragmentDoc = gql`
-    fragment postWithUserInfo on Post {
-  id
-  title
-  text
-  createdAt
-  updatedAt
-  textSnippet
-  points
-  voteType
-  user {
-    id
-    username
-  }
 }
     `;
 export const UserMutationStatusesFragmentDoc = gql`
@@ -681,17 +639,22 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
 export const GetAllPostDocument = gql`
-    query getAllPost($limit: Int!, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
-    totalCount
-    cursor
-    hasMore
-    paginatedPosts {
-      ...postWithUserInfo
+    query getAllPost {
+  posts {
+    id
+    title
+    userId
+    createdAt
+    updatedAt
+    textSnippet
+    user {
+      id
+      username
+      email
     }
   }
 }
-    ${PostWithUserInfoFragmentDoc}`;
+    `;
 
 /**
  * __useGetAllPostQuery__
@@ -705,12 +668,10 @@ export const GetAllPostDocument = gql`
  * @example
  * const { data, loading, error } = useGetAllPostQuery({
  *   variables: {
- *      limit: // value for 'limit'
- *      cursor: // value for 'cursor'
  *   },
  * });
  */
-export function useGetAllPostQuery(baseOptions: Apollo.QueryHookOptions<GetAllPostQuery, GetAllPostQueryVariables>) {
+export function useGetAllPostQuery(baseOptions?: Apollo.QueryHookOptions<GetAllPostQuery, GetAllPostQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetAllPostQuery, GetAllPostQueryVariables>(GetAllPostDocument, options);
       }

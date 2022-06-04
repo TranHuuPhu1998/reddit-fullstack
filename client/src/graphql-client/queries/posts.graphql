@@ -1,10 +1,15 @@
-query getAllPost($limit: Int!, $cursor: String) {
-  posts(limit: $limit, cursor: $cursor) {
-    totalCount
-    cursor
-    hasMore
-    paginatedPosts {
-      ...postWithUserInfo
+query getAllPost {
+  posts {
+    id
+    title
+    userId
+    createdAt
+    updatedAt
+    textSnippet
+    user {
+      id
+      username
+      email
     }
   }
 }
