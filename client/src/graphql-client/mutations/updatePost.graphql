@@ -1,0 +1,15 @@
+mutation UpdatePost($updatePostInput: UpdatePostInput!) {
+  updatePost(updatePostInput: $updatePostInput) {
+    code
+    message
+    success
+    post {
+      title
+      userId
+    }
+    errors {
+      field
+      message
+    }
+  }
+}

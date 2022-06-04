@@ -1,0 +1,121 @@
+{
+  "data": {
+    "posts": {
+      "totalCount": 13,
+      "cursor": "2022-05-29T14:06:12.483Z",
+      "hasMore": true,
+      "paginatedPosts": [
+        {
+          "title": "GG",
+          "createdAt": "2022-06-01T06:32:00.310Z",
+          "user": {
+            "username": "Phu Phu",
+            "email": "",
+            "id": "2",
+            "createdAt": "2022-05-13T04:17:36.612Z",
+            "updatedAt": "2022-05-29T09:25:07.833Z"
+          }
+        },
+        {
+          "title": "new post 1 update",
+          "createdAt": "2022-05-29T14:41:18.092Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "would you like play tenic",
+          "createdAt": "2022-05-29T14:36:38.211Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "whould you like make cake",
+          "createdAt": "2022-05-29T14:18:41.538Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "cake banh",
+          "createdAt": "2022-05-29T14:18:19.469Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "hello world",
+          "createdAt": "2022-05-29T14:18:09.124Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "angular js",
+          "createdAt": "2022-05-29T14:17:49.272Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "nodejs express",
+          "createdAt": "2022-05-29T14:06:31.221Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "leaning applo client",
+          "createdAt": "2022-05-29T14:06:22.379Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        },
+        {
+          "title": "leaning graphql",
+          "createdAt": "2022-05-29T14:06:12.483Z",
+          "user": {
+            "username": "react",
+            "email": "",
+            "id": "4",
+            "createdAt": "2022-05-16T02:21:22.932Z",
+            "updatedAt": "2022-05-16T02:21:22.932Z"
+          }
+        }
+      ]
+    }
+  }
+}
