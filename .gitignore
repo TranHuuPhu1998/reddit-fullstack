@@ -2,4 +2,3 @@ server/dist
 server/node_modules
 server/.env
 .history
-.vscode
