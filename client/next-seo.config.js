@@ -9,4 +9,6 @@ export default {
     site: '@site',
     cardType: 'summary_large_image',
   },
-}
+};
+
+// commit 1
