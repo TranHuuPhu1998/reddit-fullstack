@@ -171,3 +171,5 @@ query GetPost {
     }
   }
 ```
+
+# FIX CONNECTION PSQL => RUN TERMINAL sudo pkill -u postgres
