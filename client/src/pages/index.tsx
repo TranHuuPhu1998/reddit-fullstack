@@ -15,7 +15,7 @@ import Layout from '../components/Layout';
 import PostEditDeleteButtons from '../components/PostEditDeleteButtons';
 import { GetAllPostDocument, useGetAllPostQuery } from '../generated/graphql';
 import { addApolloState, initializeApollo } from '../lib/apolloClient';
-// import UpvoteSection from '../components/UpvoteSection';
+import UpvoteSection from '../components/UpvoteSection';
 
 export const limit = 3;
 
@@ -26,6 +26,7 @@ const Index = () => {
     // component nao render boi cai Posts query, se rerender khi networkStatus thay doi, tuc la fetchMore
     notifyOnNetworkStatusChange: true,
   });
+  console.log('🚀 ~ file: index.tsx ~ line 29 ~ Index ~ data', data);
 
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
@@ -42,7 +43,7 @@ const Index = () => {
         <Stack spacing={8}>
           {data?.posts?.paginatedPosts.map((post: any) => (
             <Flex key={post.id} p={5} shadow="md" borderWidth="1px">
-              {/* <UpvoteSection post={post} /> */}
+              <UpvoteSection post={post} />
               <Box flex={1}>
                 <NextLink href={`/post/${post.id}`}>
                   <Link>

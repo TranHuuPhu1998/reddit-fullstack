@@ -19,6 +19,7 @@ import path from "path";
 import { PostResolver } from "./resolvers/post";
 import { graphqlUploadExpress } from "graphql-upload";
 import { ProfilePictureResolver } from "./resolvers/profile-picture";
+import { buildDataLoaders } from "./utils/dataLoaders";
 
 const main = async () => {
   const connection = await createConnection({
@@ -104,6 +105,8 @@ const main = async () => {
     context: ({ req, res }): Context => ({
       req,
       res,
+      connection,
+      dataLoaders: buildDataLoaders(),
     }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });

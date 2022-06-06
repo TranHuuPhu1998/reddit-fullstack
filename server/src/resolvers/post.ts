@@ -8,6 +8,7 @@ import {
   Int,
   Mutation,
   Query,
+  registerEnumType,
   Resolver,
   Root,
   UseMiddleware,
@@ -19,6 +20,13 @@ import { checkAuth } from "../middleware/checkAuth";
 import { User } from "../entities/User";
 import { PaginatedPosts } from "../types/PaginatedPosts";
 import { LessThan } from "typeorm";
+import { Upvote } from "../entities/Upvote";
+import { VoteType } from "../types/VoteType";
+import { UserInputError } from "apollo-server-core";
+
+registerEnumType(VoteType, {
+  name: "VoteType", // this one is mandatory
+});
 
 @Resolver((_of) => Post)
 export class PostResolver {
@@ -35,7 +43,24 @@ export class PostResolver {
     return await User.findOne(root.userId);
     // return await userLoader.load(root.userId);
   }
+  @FieldResolver((_return) => Int)
+  async voteType(
+    @Root() root: Post,
+    @Ctx() { req, dataLoaders: { voteTypeLoader } }: Context
+  ) {
+    if (!req.session.userId) return 0;
+    // const existingVote = await Upvote.findOne({
+    // 	postId: root.id,
+    // 	userId: req.session.userId
+    // })
 
+    const existingVote = await voteTypeLoader.load({
+      postId: root.id,
+      userId: req.session.userId,
+    });
+
+    return existingVote ? existingVote.value : 0;
+  }
   @Mutation((_return) => PostMutationResponse)
   @UseMiddleware(checkAuth)
   async createPost(
@@ -169,5 +194,66 @@ export class PostResolver {
     await Post.delete({ id });
 
     return { code: 200, success: true, message: "Post deleted successfully" };
+  }
+
+  @Mutation((_return) => PostMutationResponse)
+  @UseMiddleware(checkAuth)
+  async vote(
+    @Arg("postId", (_type) => Int) postId: number,
+    @Arg("inputVoteValue", (_type) => VoteType) inputVoteValue: VoteType,
+    @Ctx()
+    {
+      req: {
+        session: { userId },
+      },
+      connection,
+    }: Context
+  ): Promise<PostMutationResponse> {
+    return await (connection as any).transaction(
+      async (transactionEntityManager: any) => {
+        // check if post exists
+        let post = await transactionEntityManager.findOne(Post, postId);
+        if (!post) {
+          throw new UserInputError("Post not found");
+        }
+
+        // check if user has voted or not
+        const existingVote = await transactionEntityManager.findOne(Upvote, {
+          postId,
+          userId,
+        });
+
+        if (existingVote && existingVote.value !== inputVoteValue) {
+          await transactionEntityManager.save(Upvote, {
+            ...existingVote,
+            value: inputVoteValue,
+          });
+
+          post = await transactionEntityManager.save(Post, {
+            ...post,
+            points: post.points + 2 * inputVoteValue,
+          });
+        }
+
+        if (!existingVote) {
+          const newVote = transactionEntityManager.create(Upvote, {
+            userId,
+            postId,
+            value: inputVoteValue,
+          });
+          await transactionEntityManager.save(newVote);
+
+          post.points = post.points + inputVoteValue;
+          post = await transactionEntityManager.save(post);
+        }
+
+        return {
+          code: 200,
+          success: true,
+          message: "Post voted",
+          post,
+        };
+      }
+    );
   }
 }

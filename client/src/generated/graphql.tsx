@@ -59,6 +59,7 @@ export type Mutation = {
   createPost: PostMutationResponse;
   updatePost: PostMutationResponse;
   deletePost: PostMutationResponse;
+  vote: PostMutationResponse;
   addProfilePicture: UploadResult;
 };
 
@@ -100,6 +101,12 @@ export type MutationDeletePostArgs = {
 };
 
 
+export type MutationVoteArgs = {
+  inputVoteValue: VoteType;
+  postId: Scalars['Int'];
+};
+
+
 export type MutationAddProfilePictureArgs = {
   file: Scalars['Upload'];
 };
@@ -119,7 +126,7 @@ export type Post = {
   userId: Scalars['Float'];
   user: User;
   points: Scalars['Float'];
-  voteType?: Maybe<Scalars['Float']>;
+  voteType: Scalars['Float'];
   text: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
@@ -189,6 +196,11 @@ export type UserMutationResponse = IMutationResponse & {
   user?: Maybe<User>;
   errors?: Maybe<Array<FieldError>>;
 };
+
+export enum VoteType {
+  Upvote = 'Upvote',
+  Downvote = 'Downvote'
+}
 
 export type FieldErrorFragment = (
   { __typename?: 'FieldError' }
@@ -340,6 +352,20 @@ export type UpdatePostMutationVariables = Exact<{
 export type UpdatePostMutation = (
   { __typename?: 'Mutation' }
   & { updatePost: (
+    { __typename?: 'PostMutationResponse' }
+    & PostMutationResponseFragment
+  ) }
+);
+
+export type VoteMutationVariables = Exact<{
+  inputVoteValue: VoteType;
+  postId: Scalars['Int'];
+}>;
+
+
+export type VoteMutation = (
+  { __typename?: 'Mutation' }
+  & { vote: (
     { __typename?: 'PostMutationResponse' }
     & PostMutationResponseFragment
   ) }
@@ -742,6 +768,40 @@ export function useUpdatePostMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpdatePostMutationHookResult = ReturnType<typeof useUpdatePostMutation>;
 export type UpdatePostMutationResult = Apollo.MutationResult<UpdatePostMutation>;
 export type UpdatePostMutationOptions = Apollo.BaseMutationOptions<UpdatePostMutation, UpdatePostMutationVariables>;
+export const VoteDocument = gql`
+    mutation Vote($inputVoteValue: VoteType!, $postId: Int!) {
+  vote(inputVoteValue: $inputVoteValue, postId: $postId) {
+    ...postMutationResponse
+  }
+}
+    ${PostMutationResponseFragmentDoc}`;
+export type VoteMutationFn = Apollo.MutationFunction<VoteMutation, VoteMutationVariables>;
+
+/**
+ * __useVoteMutation__
+ *
+ * To run a mutation, you first call `useVoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useVoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [voteMutation, { data, loading, error }] = useVoteMutation({
+ *   variables: {
+ *      inputVoteValue: // value for 'inputVoteValue'
+ *      postId: // value for 'postId'
+ *   },
+ * });
+ */
+export function useVoteMutation(baseOptions?: Apollo.MutationHookOptions<VoteMutation, VoteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<VoteMutation, VoteMutationVariables>(VoteDocument, options);
+      }
+export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
+export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
+export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
