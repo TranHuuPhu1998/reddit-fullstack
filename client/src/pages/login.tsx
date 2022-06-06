@@ -10,7 +10,6 @@ import NextLink from 'next/link';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { useRouter } from 'next/router';
 import InputField from '../components/InputField';
-import Wrapper from '../components/Wrapper';
 import {
   LoginInput,
   MeDocument,
@@ -21,6 +20,7 @@ import { mapFieldErrors } from '../helpers/mapFieldErrors';
 import { useCheckAuth } from '../utils/useCheckAuth';
 import useTranslation from 'next-translate/useTranslation';
 import { NextSeo } from 'next-seo';
+import Layout from '../components/Layout';
 
 const Login = () => {
   const { t } = useTranslation();
@@ -81,15 +81,15 @@ const Login = () => {
           description: 'Open Graph Description',
         }}
       />
-      <Heading alignItems="center" mb={4}>
-        SEO Login Page
-      </Heading>
       {authLoading || (!authLoading && authData?.me) ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
       ) : (
-        <Wrapper size="small">
+        <Layout>
+          <Heading alignItems="center" mb={4}>
+            SEO Login Page
+          </Heading>
           {error && <p>{t('Failed to login. Internal server error.')}</p>}
           <Formik initialValues={initialValues} onSubmit={onLoginSubmit}>
             {({ isSubmitting }) => (
@@ -128,7 +128,7 @@ const Login = () => {
               </Form>
             )}
           </Formik>
-        </Wrapper>
+        </Layout>
       )}
     </>
   );

@@ -25,8 +25,8 @@ Hướng dẫn Full Stack TypeScript, GraphQL, Apollo, React & Next.js from Henr
 - DAY 21/05/2022 (Implement i18next)
 - DAY 23/05/2022 (6h27phut -> 6h47phut)
 - DAY 24/05/2022 (6h47phut -> 7h36phut)
-- DAT 29/05/2022 (7h36phut -> 12h22phut)
-
+- DAY 29/05/2022 (7h36phut -> 12h22phut)
+- DAY 06/06/2022 (12h22phut -> 13h22phut)
 - install DB : <https://www.youtube.com/watch?v=QaZrWIvAFsA>
 
 # CREATEB DB WITH TERMINAL
