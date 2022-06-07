@@ -231,7 +231,7 @@ export type PostMutationResponseFragment = (
 
 export type PostWithUserInfoFragment = (
   { __typename?: 'Post' }
-  & Pick<Post, 'id' | 'title' | 'text' | 'createdAt' | 'updatedAt' | 'textSnippet' | 'points' | 'voteType'>
+  & Pick<Post, 'id' | 'title' | 'text' | 'createdAt' | 'updatedAt' | 'textSnippet' | 'points'>
   & { user: (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'username'>
@@ -446,7 +446,6 @@ export const PostWithUserInfoFragmentDoc = gql`
   updatedAt
   textSnippet
   points
-  voteType
   user {
     id
     username

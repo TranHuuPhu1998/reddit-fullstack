@@ -119,7 +119,7 @@ const main = async () => {
     res.sendFile(path.join(__dirname, `../public/images/${req.params.images}`));
   });
 
-  const PORT = process.env.PORT || 5555;
+  const PORT = process.env.PORT || 5000;
   app.listen(PORT, () =>
     console.log(
       `Server started on port ${PORT}. GraphQL server started on localhost:${PORT}${apolloServer.graphqlPath}`

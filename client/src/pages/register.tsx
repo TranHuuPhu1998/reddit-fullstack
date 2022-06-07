@@ -7,7 +7,6 @@ import {
   useToast,
   Heading,
 } from '@chakra-ui/react';
-import Wrapper from '../components/Wrapper';
 import InputField from '../components/InputField';
 import { RegisterInput, useRegisterMutation } from '../generated/graphql';
 import { useRouter } from 'next/router';
@@ -15,6 +14,7 @@ import { mapFieldErrors } from '../helpers/mapFieldErrors';
 import { useCheckAuth } from '../utils/useCheckAuth';
 import useTranslation from 'next-translate/useTranslation';
 import { NextSeo } from 'next-seo';
+import Layout from '../components/Layout';
 
 const Register = () => {
   const router = useRouter();
@@ -67,15 +67,15 @@ const Register = () => {
           description: 'Open Graph Description',
         }}
       />
-      <Heading alignItems="center" mb={4}>
-        SEO Register Page
-      </Heading>
       {authLoading || (!authLoading && authData?.me) ? (
         <Flex justifyContent="center" alignItems="center" minH="100vh">
           <Spinner />
         </Flex>
       ) : (
-        <Wrapper size="small">
+        <Layout>
+          <Heading alignItems="center" mb={4}>
+            SEO Register Page
+          </Heading>
           {error && <p>{t('Failed to register. Please try again.')}</p>}
           <Formik initialValues={initialValues} onSubmit={onRegisterSubmit}>
             {({ isSubmitting }) => (
@@ -118,7 +118,7 @@ const Register = () => {
               </Form>
             )}
           </Formik>
-        </Wrapper>
+        </Layout>
       )}
     </>
   );

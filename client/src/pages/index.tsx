@@ -26,7 +26,6 @@ const Index = () => {
     // component nao render boi cai Posts query, se rerender khi networkStatus thay doi, tuc la fetchMore
     notifyOnNetworkStatusChange: true,
   });
-  console.log('🚀 ~ file: index.tsx ~ line 29 ~ Index ~ data', data);
 
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore;
 
