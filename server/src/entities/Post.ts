@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   // OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -31,7 +32,7 @@ export class Post extends BaseEntity {
   @ManyToOne(() => User, (user) => user.posts)
   user: User;
 
-  // @OneToMany((_to) => Upvote, (vote) => vote.post)
+  @OneToMany((_to) => Upvote, (upvote) => upvote.post)
   upvotes: Upvote[];
 
   @Field()

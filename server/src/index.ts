@@ -4,6 +4,7 @@ import express from "express";
 import { createConnection } from "typeorm";
 import { User } from "./entities/User";
 import { Post } from "./entities/Post";
+import { Upvote } from "./entities/Upvote";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
@@ -43,7 +44,7 @@ const main = async () => {
         }
       : {}),
     ...(__prod__ ? {} : { synchronize: true }),
-    entities: [User, Post],
+    entities: [User, Post, Upvote],
     migrations: [path.join(__dirname, "/migrations/*")],
   });
 
